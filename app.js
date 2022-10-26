@@ -1,11 +1,12 @@
 const boxes = Array.from(document.getElementsByClassName('box'));
 const playText = document.getElementById('playText');
-const spaces = [null, null, null, null, null, null, null, null, null];
+const spaces = [];
+const restartButton = document.getElementById('restartBtn');
 
 const O_TEXT = 'O';
 const X_TEXT = 'X';
 
-let currentPlayer = O_TEXT;
+let currentPlayer;
 
 const drawBoard = () => {
   boxes.forEach((box, index) => {
@@ -41,7 +42,7 @@ const boxClicked = (e) => {
 };
 
 const playerHasWon = () => {
-    // One
+  // One
   if (spaces[0] === currentPlayer) {
     if (spaces[0] === currentPlayer && spaces[2] === currentPlayer) {
       console.log(`${currentPlayer} wins up top`);
@@ -68,6 +69,30 @@ const playerHasWon = () => {
     }
   }
   // Three
+  if (spaces[4] === currentPlayer) {
+    if (spaces[1] === currentPlayer && spaces[7] === currentPlayer) {
+      console.log(`${currentPlayer} wins vertically in middle`);
+      return true;
+    }
+    if (spaces[3] === currentPlayer && spaces[5] === currentPlayer) {
+      console.log(`${currentPlayer} wins horizontally in middle`);
+      return true;
+    }
+  }
 };
 
+const restart = () => {
+  spaces.forEach((space, index) => {
+    spaces[index] = null;
+  });
+  boxes.forEach((box) => {
+    box.innerText = '';
+  });
+  playText.innerText = "Let's Play";
+  currentPlayer = O_TEXT;
+};
+
+restartButton.addEventListener('click', restart);
+
+restart();
 drawBoard();
